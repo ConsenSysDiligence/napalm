@@ -93,4 +93,4 @@ $ napalm run detect <your_contract.sol/your_contracts/directory>
 
 Using napalm is truly empowering when you start writing your own modules! 
 
-Checkout our getting started page for becoming a napalm module dev [here](../module-hacker.md).
+Checkout our getting started page for becoming a napalm module dev [here](/module-hacker.md).
