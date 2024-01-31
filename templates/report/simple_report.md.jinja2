@@ -1,0 +1,28 @@
+# Report
+{{ report_description }}
+
+## Result Summary
+| |Issue | Instances |
+|-|-------|-----------|
+{% for severity, rules in rules.items() -%}
+{% for rule in rules -%}
+| [{{ rule.report_id }}](#{{ rule.report_id.lower() }})| {{ rule.short_description }} | {{ rule.number_of_issues }} |
+{% endfor -%}
+{% endfor -%}
+
+{% for severity, rules in rules.items() -%}
+## {{ severity }}
+{% for rule in rules -%}
+### [{{ rule.report_id }}]<a name="{{rule.report_id.lower()}}"></a>  - {{ rule.short_description }}
+{{ rule.help or rule.full_description or rule.short_description }}
+{% for issue in rule.issues -%}
+{% for snippet in issue.snippets -%}
+```solidity
+{{ snippet }}
+```
+{% endfor -%}
+{% endfor -%}
+
+{% endfor -%} {# rule #}
+{% endfor -%} {# severity #}
+

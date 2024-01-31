@@ -1,0 +1,10 @@
+  rules:
+      - id: int-cast-block-timestamp
+        message: |
+          Consider not casting block timestamp to ensure future functionality of the contract.
+        patterns:
+          - pattern: |
+             uint8(block.timestamp)
+        languages:
+          - solidity
+        severity: INFO

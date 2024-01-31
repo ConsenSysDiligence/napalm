@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "napalm-toolbox"
+version = "0.1.0"
+description = "A tool to make working with security analysis tools a breeze"
+authors = ["JoranHonig <JoranHonig@users.noreply.github.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+include = ["templates/**/*"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+loguru = "^0.7.0"
+pydantic-sarif = "^0.1.1"
+toolz = "^0.12.0"
+click = "^8.1.6"
+gitpython = "^3.1.32"
+jinja2 = "^3.1.2"
+pyyaml = "^6.0.1"
+pickledb = "^0.9.2"
+importlib-metadata = "^7.0.0"
+rich = "^13.7.0"
+langchain = "^0.0.352"
+openai = "^1.6.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.11.0"
+pre-commit = "^3.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+"napalm" = "napalm.cli.base.main:cli"
+"napalm-dev" = "napalm.cli.dev.cli:cli"
+
+[tool.poetry.dependencies.napalm_slither]
+optional = true
+version = "^0.1.0"
+
+[tool.poetry.extras]
+slither = ["slither"]

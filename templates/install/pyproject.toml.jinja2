@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "{{module_name}}"
+version = "0.1.0"
+description = "Your project to manage napalm detection modules"
+license = "MIT"
+readme = "README.md"
+authors = []
+packages = [
+    { include = "{{module_name}}" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+slither-analyzer = "^0.9.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.plugins."napalm.collection"]
+"{{module_name}}" = "{{module_name}}.napalm:entry_point"
+
+
