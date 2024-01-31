@@ -24,6 +24,10 @@ pip install napalm-toolbox[slither]
 
 > You can install napalm without slither too! Just omit the [slither]
 
+Quick start guides:
+ - [for module hackers](docs/module-hacker.md)
+ - [for running analyses with napalm](docs/running-with-napalm.md)
+
 ## 💣 Running scans with Napalm
 Using napalm is simple, you've got two main concepts to keep in mind:
 1. **Collection** - A collection is a group of detection rules / modules.
