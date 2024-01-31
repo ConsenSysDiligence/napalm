@@ -6,6 +6,9 @@ authors = ["JoranHonig <JoranHonig@users.noreply.github.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 include = ["templates/**/*"]
+packages = [
+    { include = "napalm" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
