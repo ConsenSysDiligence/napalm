@@ -13,7 +13,7 @@ pip3 install napalm-toolbox
 ```
 
 <aside>
-💡 Napalm uses python 3.10 (or higher), make sure you’ve got a recent version installed!
+💡 Napalm uses python 3.12 (or higher), make sure you’ve got a recent version installed!
 
 </aside>
 
