@@ -22,6 +22,8 @@ Napalm is available on PyPi, so you can install it with pip:
 pip install napalm-toolbox[slither]
 ```
 
+> You can install napalm without slither too! Just omit the [slither]
+
 ## 💣 Running scans with Napalm
 Using napalm is simple, you've got two main concepts to keep in mind:
 1. **Collection** - A collection is a group of detection rules / modules.
