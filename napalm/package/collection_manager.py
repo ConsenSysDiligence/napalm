@@ -29,6 +29,7 @@ class CollectionManager:
                     f"An error occurred while loading the plugin '{entry_point.name}'",
                     error=e,
                 )
+                loguru.logger.warning(e)
 
         return plugins
 
