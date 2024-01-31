@@ -55,7 +55,7 @@ class WorkflowStorage:
             raise KeyError(f"Meta collection {name} does not exist")
 
         collection = self.get_workflow(name)
-        print(collection)
+
         if item in collection:
             return
 
