@@ -22,12 +22,31 @@ class WorkflowStorage:
         self._storage.set("workflow/direct", [])
         self._storage.set("workflow/inform", [])
 
+        self._storage.set("workflow/filters", {})
+
         self._storage.set("initialised/workflow-storage", True)
         logger.debug("Successfully initialised meta collection storage")
 
     @property
     def list(self):
         return self._storage.get("workflows")
+
+    @property
+    def filters(self):
+        return self._storage.get("workflow/filters") or dict()
+
+    def set_filter(self, workflow_name: str, filter_name: str, filter_value: str):
+        filters = self.filters
+        if workflow_name not in filters:
+            filters[workflow_name] = dict()
+        filters[workflow_name][filter_name] = filter_value
+        self._storage.set("workflow/filters", filters)
+
+    def get_filter(self, workflow_name: str, filter_name: str):
+        filters = self.filters
+        if workflow_name not in filters:
+            return None
+        return filters[workflow_name].get(filter_name)
 
     def create_workflow(self, name: str):
         if name in self.list:
