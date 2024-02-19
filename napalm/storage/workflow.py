@@ -35,7 +35,7 @@ class WorkflowStorage:
     def filters(self):
         return self._storage.get("workflow/filters") or dict()
 
-    def set_filter(self, workflow_name: str, filter_name: str, filter_value: str):
+    def set_filter(self, workflow_name: str, filter_name: str, filter_value):
         filters = self.filters
         if workflow_name not in filters:
             filters[workflow_name] = dict()
@@ -46,7 +46,7 @@ class WorkflowStorage:
         filters = self.filters
         if workflow_name not in filters:
             return None
-        return filters[workflow_name].get(filter_name)
+        return filters[workflow_name].get(filter_name, None)
 
     def create_workflow(self, name: str):
         if name in self.list:
