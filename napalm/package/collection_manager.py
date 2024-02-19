@@ -5,6 +5,10 @@ import loguru
 from napalm.package.discovery import Collection
 from napalm.plugins.installed import get_installed_tool_plugins
 
+from napalm.package.detector_info import DetectorInfo
+from typing import Dict, Optional
+from toolz import memoize
+
 
 class CollectionManager:
     """
@@ -90,3 +94,13 @@ class CollectionManager:
 
         # If no collection with the specified name was found, return None
         return None
+
+    @memoize
+    def detectors(self) -> Dict[str, DetectorInfo]:
+        for collection in self.installed_collections():
+            collection = self.get(collection)
+            for detector in collection.detectors:
+                yield detector.id, detector
+
+    def get_detector(self, detector_rule_id: str) -> Optional[DetectorInfo]:
+        return self.detectors().get(detector_rule_id, None)

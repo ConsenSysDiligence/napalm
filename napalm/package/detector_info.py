@@ -19,6 +19,7 @@ class DetectorInfo:
     long_description: str  # full description
 
     severity: str
+    confidence: Optional[str]
 
     false_positive_prompt: Optional[str]
 
@@ -40,6 +41,16 @@ class DetectorInfo:
             if semgrep_rule.metadata
             else []
         )
+
+        twins = None
+        false_positive_prompt = None
+        confidence = None
+
+        if semgrep_rule.metadata:
+            twins = semgrep_rule.metadata.get("twins")
+            false_positive_prompt = semgrep_rule.metadata.get("false_positive_prompt")
+            confidence = semgrep_rule.metadata.get("confidence")
+
         return cls(
             id=semgrep_rule.id,
             name=semgrep_rule.id,
@@ -47,11 +58,8 @@ class DetectorInfo:
             long_description=semgrep_rule.message,
             severity=semgrep_rule.severity,
             base=semgrep_rule,
-            false_positive_prompt=semgrep_rule.metadata.get("false_positive_prompt")
-            if semgrep_rule.metadata
-            else None,
-            twins=semgrep_rule.metadata.get("twins", [])
-            if semgrep_rule.metadata
-            else [],
+            false_positive_prompt=false_positive_prompt,
+            twins=twins,
+            confidence=confidence,
             competitors=competitors,
         )
