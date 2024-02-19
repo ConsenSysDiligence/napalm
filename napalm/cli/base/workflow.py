@@ -110,3 +110,85 @@ def _list(ctx):
     click.echo(f"workflow {workflow_name} contains:")
     for collection in workflow_workflows:
         click.echo(f"  - {collection}")
+
+
+@workflow.command(help="List filters in workflow", name="list-filters")
+@click.pass_context
+def list_filters(ctx):
+    workflow_name = ctx.obj["workflow_name"]
+    storage_provider = ctx.obj["storage"]
+
+    storage = WorkflowStorage(storage_provider)
+    filters = storage.filters.get(workflow_name, {})
+
+    if not filters:
+        click.echo(f"workflow {workflow_name} does not contain any filters")
+        return
+
+    if not any(f for f, values in filters.values()):
+        click.echo(f"workflow {workflow_name} does not contain any filters")
+        return
+
+    click.echo(f"workflow {workflow_name} filters:")
+    for filter_name, filter_value in filters.items():
+        if not filter_value:
+            continue
+
+        click.echo(f"  - {filter_name}: ")
+        (allow_deny, values) = filter_value
+        for value in values:
+            click.echo(f"    - {allow_deny} {value}")
+
+
+def _filter(ctx, filter_name, filter_value, allow_deny):
+    workflow_name = ctx.obj["workflow_name"]
+    storage_provider = ctx.obj["storage"]
+
+    storage = WorkflowStorage(storage_provider)
+
+    current_filter = storage.get_filter(workflow_name, filter_name)
+    _allow_deny, values = current_filter if current_filter is not None else (None, [])
+
+    if _allow_deny and _allow_deny != allow_deny:
+        click.echo(f"Filter {filter_name} already exists as a {allow_deny} filter and cannot be updated.")
+        exit(1)
+
+    values.append(filter_value)
+
+    storage.set_filter(workflow_name, filter_name, (allow_deny, values))
+
+    click.echo(
+        f"Successfully added {allow_deny} list filter {filter_name} = {filter_value} to workflow {workflow_name}"
+    )
+
+
+@workflow.command(help="Add allowlist filter to workflow", name="include")
+@click.argument("filter-name")
+@click.argument("filter-value")
+@click.pass_context
+def include(ctx, filter_name, filter_value):
+    _filter(ctx, filter_name, filter_value, "allow")
+
+
+@workflow.command(help="Add denylist filter to workflow", name="exclude")
+@click.argument("filter-name")
+@click.argument("filter-value")
+@click.pass_context
+def exclude(ctx, filter_name, filter_value):
+    _filter(ctx, filter_name, filter_value, "deny")
+
+
+@workflow.command(help="Reset workflow filter")
+@click.argument("filter-name")
+@click.pass_context
+def reset_filter(ctx, filter_name):
+    workflow_name = ctx.obj["workflow_name"]
+    storage_provider = ctx.obj["storage"]
+
+    storage = WorkflowStorage(storage_provider)
+
+    storage.set_filter(workflow_name, filter_name, None)
+
+    click.echo(
+        f"Successfully reset filter {filter_name} in workflow {workflow_name}"
+    )

@@ -18,7 +18,7 @@ from napalm.storage import WorkflowStorage
 from napalm.storage.twin import TwinStorage
 from napalm.tool.semgrep_tool_runner import SemgrepToolRunner
 from napalm.utils.sarif import merge_reports
-
+from napalm.analysis.filter import apply_filters
 from napalm.plugins.installed import get_installed_tool_plugins
 
 
@@ -130,6 +130,10 @@ def run(
 
     if ai_filter:
         filter_false_positives(merged_results)
+
+    filters = workflow_storage.filters.get(workflow, {})
+    if filters:
+        apply_filters(merged_results, filters)
 
     if merged_results is None:
         click.echo("No results")
