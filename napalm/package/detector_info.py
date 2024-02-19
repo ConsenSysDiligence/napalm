@@ -42,12 +42,12 @@ class DetectorInfo:
             else []
         )
 
-        twins = None
+        twins = []
         false_positive_prompt = None
         confidence = None
 
         if semgrep_rule.metadata:
-            twins = semgrep_rule.metadata.get("twins")
+            twins = semgrep_rule.metadata.get("twins", [])
             false_positive_prompt = semgrep_rule.metadata.get("false_positive_prompt")
             confidence = semgrep_rule.metadata.get("confidence")
 

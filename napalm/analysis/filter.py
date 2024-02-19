@@ -5,7 +5,7 @@ from pydantic_sarif.model import (
 from napalm.package.collection_manager import CollectionManager
 
 
-def _filter_severity(_: CollectionManager, report: Report, is_allow, severities):
+def _filter_severity(collection_manager: CollectionManager, report: Report, is_allow, severities):
     for run in report.runs:
         run.results = list(
             filter(
@@ -30,17 +30,19 @@ def _filter_confidence(collection_manager: CollectionManager, report: Report, is
                 run.results.remove(result)
 
 
-def _apply_filters(report, filters):
+def apply_filters(report, filters):
     collection_manager = CollectionManager()
     # filters looks like {'severity': ('allow', ['High', 'Medium'])}
     for _type, values in filters.items():
+        if not values:
+            continue
         match _type:
             case "severity":
                 allow_deny, severities = values
                 _filter_severity(collection_manager, report, allow_deny == "allow", severities)
             case "confidence":
-                # not yet supported
-                pass
+                allow_deny, confidences = values
+                _filter_confidence(collection_manager, report, allow_deny == "allow", confidences)
             case "category":
                 # not yet supported
                 pass
