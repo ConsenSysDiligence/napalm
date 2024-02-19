@@ -6,7 +6,6 @@ on high confidence detectors, while your favourite collection has a few more low
 You can use filters to achieve the exact results that you want:
 1. filter by confidence
 2. filter by severity
-3. filter by category ( e.g. only show gas optimisations )
 
 
 ## Adding and removing filters
@@ -31,7 +30,6 @@ You can filter a range of different properties:
 ```bash
 napalm workflow detect include confidence HIGH
 napalm workflow detect include severity CRITICAL
-napalm workflow detect include category gas
 ```
 
 ## Tool standards
