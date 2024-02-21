@@ -13,6 +13,10 @@ def workflows(ctx):
 @click.argument("workflow-name")
 @click.pass_context
 def create(ctx, workflow_name):
+    if workflow_name == "all":
+        click.echo("Cannot create a workflow with keyword 'all'")
+        exit(1)
+
     storage = WorkflowStorage(ctx.obj["storage"])
 
     if storage.get_workflow(workflow_name) or storage.get_workflow(workflow_name) == []:
