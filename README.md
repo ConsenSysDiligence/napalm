@@ -19,7 +19,7 @@ With Napalm you can manage, and easily run your custom detection modules for mul
 Napalm is available on PyPi, so you can install it with pip:
 
 ```bash
-pip install napalm-toolbox[slither]
+pip install 'napalm-toolbox[slither]'
 ```
 
 > You can install napalm without slither too! Just omit the [slither]
