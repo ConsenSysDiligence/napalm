@@ -7,7 +7,7 @@ from typing import List
 def get_collections_for_workflow(storage: StorageProvider, workflow: str) -> List[str]:
     if workflow == "all":
         collection_manager = CollectionManager()
-        return collection_manager.installed_collections()
+        return list(collection_manager.installed_collections())
 
     workflow_storage = WorkflowStorage(storage)
     return workflow_storage.get_workflow(workflow)
