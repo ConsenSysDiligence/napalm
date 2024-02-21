@@ -32,6 +32,9 @@ def setup_sample_detectors(module_name: str):
     (module / "optimisations").mkdir()
     (module / "optimisations" / "__init__.py").touch()
 
+    (module / "test").mkdir()
+    (module / "test" / "corpus").mkdir()
+
     # copy sample detectors
     sample_directory = (
         Path(__file__).parent.parent.parent.parent.parent / "templates" / "init"
