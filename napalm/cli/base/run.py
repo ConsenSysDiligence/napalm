@@ -21,7 +21,7 @@ from napalm.tool.semgrep_tool_runner import SemgrepToolRunner
 from napalm.utils.sarif import merge_reports
 from napalm.analysis.filter import apply_filters
 from napalm.plugins.installed import get_installed_tool_plugins
-
+from napalm.utils.workflow import get_collections_for_workflow
 
 @click.command(help="Run analysis on smart contracts.")
 @click.argument("workflow")
@@ -50,9 +50,7 @@ def run(
     ctx.ensure_object(dict)
 
     collection_manager = CollectionManager()
-    workflow_storage = WorkflowStorage(ctx.obj["storage"])
-
-    workflow_collections = workflow_storage.get_workflow(workflow)
+    workflow_collections = get_collections_for_workflow(ctx.obj["storage"], workflow)
 
     collections = []
 
@@ -63,6 +61,7 @@ def run(
         if not collection:
             exit(0)
 
+        # it's actually a collection!
         click.echo(f"Running analysis with the collection {workflow} instead!")
         collections = [collection]
     elif workflow_collections is []:
