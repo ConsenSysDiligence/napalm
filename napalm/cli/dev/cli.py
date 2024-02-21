@@ -26,3 +26,6 @@ cli.add_command(init)
 cli.add_command(install)  # install napalm
 cli.add_command(info)
 cli.add_command(compete)
+
+if __name__ == "__main__":
+    cli()
