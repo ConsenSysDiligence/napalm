@@ -150,7 +150,9 @@ def _filter(ctx, filter_name, filter_value, allow_deny):
     _allow_deny, values = current_filter if current_filter is not None else (None, [])
 
     if _allow_deny and _allow_deny != allow_deny:
-        click.echo(f"Filter {filter_name} already exists as a {allow_deny} filter and cannot be updated.")
+        click.echo(
+            f"Filter {filter_name} already exists as a {allow_deny} filter and cannot be updated."
+        )
         exit(1)
 
     values.append(filter_value)
@@ -189,6 +191,4 @@ def reset_filter(ctx, filter_name):
 
     storage.set_filter(workflow_name, filter_name, None)
 
-    click.echo(
-        f"Successfully reset filter {filter_name} in workflow {workflow_name}"
-    )
+    click.echo(f"Successfully reset filter {filter_name} in workflow {workflow_name}")
