@@ -32,8 +32,8 @@ def setup_sample_detectors(module_name: str):
     (module / "optimisations").mkdir()
     (module / "optimisations" / "__init__.py").touch()
 
-    (module / "test").mkdir()
-    (module / "test" / "corpus").mkdir()
+    (module / "napalm_test").mkdir()
+    (module / "napalm_test" / "corpus").mkdir()
 
     # copy sample detectors
     sample_directory = (

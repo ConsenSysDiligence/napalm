@@ -43,7 +43,7 @@ def _expected_findings(directory_path: Path):
 
     findings = []
 
-    for file_path in directory_path.rglob('*.sol'):
+    for file_path in (directory_path / "src").rglob('*.sol'):
         with file_path.open('r', encoding='utf-8') as file:
             for line_number, line in enumerate(file, start=1):
                 for test_type, pattern in patterns.items():
@@ -75,8 +75,7 @@ def _run_tools(directory_path: Path, ai_filter: bool = False):
     workflow = 'all'
     storage = get_storage_provider("pickle")
 
-
-    return run_tools(directory_path, collections, semgrep_arguments, workflow, storage, ai_filter)
+    return run_tools(directory_path, collections, semgrep_arguments, workflow, storage, ai_filter, slither_arguments="--foundry-ignore-compile")
 
 
 def _match_expectation_to_finding(expectation: ExpectedFinding, finding: Result):
@@ -141,7 +140,7 @@ def _report(expectations: List[ExpectedFinding], missed_expectations: List[Expec
 
 
 @click.command(help="Run tests for this project")
-@click.option("--directory", type=click.Path(), default="./test/corpus")
+@click.option("--directory", type=click.Path(), default="./napalm_test/corpus")
 def test(directory):
     directory = Path(directory)
 
