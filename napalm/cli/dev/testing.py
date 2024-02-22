@@ -16,6 +16,36 @@ from pydantic_sarif.model import Result
 from toolz import groupby
 from rich.console import Console
 
+import toml
+from pathlib import Path
+
+
+def get_package_name():
+    # Construct the Path object for the pyproject.toml file
+    pyproject_path = Path().cwd() / 'pyproject.toml'
+
+    try:
+        # Read the content of the pyproject.toml file
+        pyproject_content = pyproject_path.read_text()
+
+        # Parse the TOML content
+        pyproject_data = toml.loads(pyproject_content)
+
+        # Extract the entry point name
+        entry_point_section = pyproject_data.get('tool', {}).get('poetry', {}).get('plugins', {}).get(
+            'napalm.collection', {})
+        entry_point_name = next(iter(entry_point_section.keys()), None)
+
+        return entry_point_name
+
+    except FileNotFoundError:
+        print(f"Error: The file {pyproject_path} was not found.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+
 class TestType(Enum):
     detect = "napalm-detect"
     ok = "napalm-ok"
@@ -63,7 +93,10 @@ def _expected_findings(directory_path: Path):
 def _run_tools(directory_path: Path, ai_filter: bool = False):
     # the directory is a foundry project and should work with all supported tools
     collection_manager = CollectionManager()
-    collections = get_collections_for_workflow(get_storage_provider('pickle'), 'all')
+    package_name = get_package_name()
+    workflow = f"{package_name}/*"
+
+    collections = get_collections_for_workflow(get_storage_provider('pickle'), workflow)
     collections = list(
         filter(
             lambda a: a is not None,
@@ -72,10 +105,9 @@ def _run_tools(directory_path: Path, ai_filter: bool = False):
     )
 
     semgrep_arguments = []
-    workflow = 'all'
     storage = get_storage_provider("pickle")
 
-    return run_tools(directory_path, collections, semgrep_arguments, workflow, storage, ai_filter, slither_arguments="--foundry-ignore-compile")
+    return run_tools(directory_path, collections, semgrep_arguments, workflow, storage, ai_filter)
 
 
 def _match_expectation_to_finding(expectation: ExpectedFinding, finding: Result):
@@ -142,6 +174,7 @@ def _report(expectations: List[ExpectedFinding], missed_expectations: List[Expec
 @click.command(help="Run tests for this project")
 @click.option("--directory", type=click.Path(), default="./napalm_test/corpus")
 def test(directory):
+    # todo: assert that we're working with a napalm project
     directory = Path(directory)
 
     console = Console()

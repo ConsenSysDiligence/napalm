@@ -89,6 +89,8 @@ class CollectionManager:
             for collection in collections:
                 # Check if the current collection has the specified name
                 if collection.collection_name == collection_name:
+                    if collection.package_name is None:
+                        collection.package_name = package
                     # Return the current collection
                     return collection
 
