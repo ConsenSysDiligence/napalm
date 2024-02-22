@@ -119,8 +119,9 @@ def _match_expectation_to_finding(expectation: ExpectedFinding, finding: Result)
         return False
 
     for location in finding.locations:
-        if location.physicalLocation.artifactLocation.uri != str(expectation.file):
+        if not str(expectation.file).endswith(location.physicalLocation.artifactLocation.uri):
             continue
+
         if location.physicalLocation.region.startLine not in (expectation.line, expectation.line + 1):
             continue
         return True
@@ -138,7 +139,6 @@ def _validate_findings(expected_findings: List[ExpectedFinding], report: Report)
                 rule_id = re.match(r"\d-\d-(.*)", rule_id).group(1)
 
             expectations = grouped_expectations.get(rule_id)
-
             if not expectations:
                 continue
 
