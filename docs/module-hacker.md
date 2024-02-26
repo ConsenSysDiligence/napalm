@@ -8,7 +8,7 @@ Your first step on the road to becoming a napalm module hacker is installing the
 pip3 install napalm-toolbox
 ```
 
-> 💡 Napalm uses python 3.10 (or higher), make sure you’ve got a recent version installed!
+> 💡 Napalm uses python 3.12 (or higher), make sure you’ve got a recent version installed!
 
 
 ### Setup Your Project
