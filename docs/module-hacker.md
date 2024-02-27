@@ -116,11 +116,11 @@ It’s very important to have a good overview of your detection modules. `napalm
 
 ```bash
 $ napalm-dev info
-napalm-base summary:
+napalm-core summary:
   - 3 collections installed
   - 2 detectors
 
-napalm-base collections:
+napalm-core collections:
   - optimisations (0 detectors)
   - indicators (0 detectors)
   - detectors (2 detectors)

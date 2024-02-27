@@ -18,10 +18,10 @@ pip3 install napalm-toolbox
 
 Just napalm on it’s own is very boring. You’ve got to install some detection modules!
 
-Luckily, we have a couple ready for you in the `napalm-base` package. You can install it using pip:
+Luckily, we have a couple ready for you in the `napalm-core` package. You can install it using pip:
 
 ```bash
-$ pip3 install napalm-base
+$ pip3 install napalm-core
 ```
 
 Now, let’s see what you get from this package:
@@ -30,9 +30,9 @@ Now, let’s see what you get from this package:
 $ napalm collections show
 <installation prompt>
 Installed collections:
-  - napalm-base/optimisations
-  - napalm-base/indicators
-  - napalm-base/detectors
+  - napalm-core/optimisations
+  - napalm-core/indicators
+  - napalm-core/detectors
 ```
 
 Awesome, we’ve got three collections installed! Also, notice the tool asked us whether we want to add them to the default workflows. Go ahead and agree, we’ll get to this later.
@@ -40,12 +40,12 @@ Awesome, we’ve got three collections installed! Also, notice the tool asked us
 To see the detection modules that come in each collection you can use the `list` command:
 
 ```bash
-$ napalm collections show napalm-base/detectors
+$ napalm collections show napalm-core/detectors
 int-cast-block-timestamp - [INFO] Consider not casting block timestamp to ensure future functionality of the contract.
 dumb_overflow_rule - [INFO] This addition can overflow
 napalm-sample-detector - [LOW] This is a sample detector for napalm
 
-napalm-base/detectors summary:
+napalm-core/detectors summary:
   - 2 semgrep rules
   - 1 slither detectors
 ```
@@ -62,18 +62,18 @@ Workflows, simply put, are simply combinations of collections that you will want
 
 You can create and manage your own using `napalm workflow <workflow name> add/remove/show` and `napalm workflows create/ delete <workflow name>`.
 
-When we executed the `napalm collections show` command we automatically added the detectors in the napalm-base package to your workflows. You can also do this manually, like this:
+When we executed the `napalm collections show` command we automatically added the detectors in the napalm-core package to your workflows. You can also do this manually, like this:
 
 ```bash
-$ napalm workflow detect add napalm-base/detectors
+$ napalm workflow detect add napalm-core/detectors
 # you can create your own workflows too!
 $ napalm workflows create audit
-$ napalm workflow audit add napalm-base/detectors
-$ napalm workflow audit add napalm-base/optimisations
+$ napalm workflow audit add napalm-core/detectors
+$ napalm workflow audit add napalm-core/optimisations
 $ napalm workflow audit list
 workflow audit contains:
-  - napalm-base/detectors
-	- napalm-base/optimisations
+  - napalm-core/detectors
+  - napalm-core/optimisations
 ```
 
 ### Run a scan

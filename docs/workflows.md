@@ -23,12 +23,12 @@ Setting up your own workflows is very easy, the following snippet walks you thro
 $ napalm workflows create report
 
 # An empty workflow is boring, so lets add an existing collection to it:
-$ napalm workflow report add napalm-base/detect
+$ napalm workflow report add napalm-core/detect
 
 # Check if it works:
 $ napalm workflow report list
 workflow report contains:
-  - napalm-base/detectors
+  - napalm-core/detectors
 ```
 
 You can now run your workflow like this:
@@ -47,5 +47,5 @@ it will automatically add them to the corresponding workflows:
 - indicators -> direct
 - optimisations -> inform
 
-You'll notice this working if you install the napalm-base package! 
+You'll notice this working if you install the napalm-core package! 
 
