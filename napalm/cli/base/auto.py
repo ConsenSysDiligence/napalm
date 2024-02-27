@@ -3,7 +3,7 @@ from typing import List
 
 import click
 import rich
-from toolz.curried import pipe, map, reduce, filter
+from toolz.curried import pipe, map, reduce, filter, concat
 
 from napalm.package.collection_manager import CollectionManager
 from napalm.storage import StorageProvider
@@ -158,7 +158,7 @@ def _get_removed_collections(storage_provider: StorageProvider):
             lambda workflow: workflow_storage.get_workflow(workflow)
         ),  # all collections in each workflow
         filter(lambda x: x or x is []),  # remove None and False
-        reduce(add),  # flatten
+        concat,  # flatten
     )
 
     removed_collections = set(used_collections) - set(installed_collections)
