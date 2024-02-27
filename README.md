@@ -1,4 +1,4 @@
-# 🔥 Napalm
+e# 🔥 Napalm
 
 Napalm is a project management utility for custom solidity vulnerability detectors. 
 
@@ -53,7 +53,7 @@ When you first install Napalm, things might seem a little boring. That's because
 Napalm packages are simply python packages that contain Napalm collections. Here is the napalm base package that comes
 pre-loaded with tons of useful detection modules!
 ```bash
-pip install napalm-base
+pip install napalm-core
 ```
 
 Next time you run napalm it will automatically prompt you to add the collections in this package to your default workflows!
