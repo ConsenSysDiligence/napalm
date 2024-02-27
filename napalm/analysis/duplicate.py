@@ -5,7 +5,7 @@ from pydantic_sarif.model import Result
 from pydantic_sarif.model import (
     StaticAnalysisResultsFormatSarifVersion210JsonSchema as Report,
 )
-from toolz.curried import filter, map, pipe, reduce
+from toolz.curried import filter, map, pipe, reduce, concat
 
 from napalm.sarif.get import get_issues
 
@@ -29,7 +29,7 @@ def _mark_duplicates_for_twin(twin: Set[str], sarif_report: Report):
         location_relation_ids = pipe(
             issue.locations,
             map(lambda loc: loc.relationships),
-            reduce(add),
+            concat,
             filter(
                 lambda rel: rel.kind in ("includes", "isIncludedBy", "partial-includes")
             ),

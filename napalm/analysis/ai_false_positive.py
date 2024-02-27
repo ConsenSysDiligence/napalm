@@ -11,7 +11,7 @@ from loguru import logger
 
 from napalm.package.collection_manager import CollectionManager
 
-from toolz.curried import filter, map, pipe, reduce, groupby, valmap
+from toolz.curried import filter, map, pipe, reduce, groupby, valmap, concat
 from operator import add
 
 from typing import Optional
@@ -78,7 +78,7 @@ def filter_false_positives(report: Report):
         map(lambda collection_name: collection_manager.get(collection_name)),
         filter(lambda e: e),  # filter out None values
         map(lambda collection: collection.detectors),
-        reduce(add),
+        concat,
         groupby(lambda detector: detector.id),
         valmap(lambda detectors: detectors[0].false_positive_prompt),
     )

@@ -137,7 +137,7 @@ def compete(competitive_info_db: str, base_competitive_info_db: str, verbose):
     console.print(f"  - {len(collections)} collections")
 
     console.print(
-        f"  - {count(reduce(add, map(lambda c: c.detectors, collections)))} detectors"
+        f"  - {count(concat(map(lambda c: c.detectors, collections)))} detectors"
     )
 
     console.print(f" - {len(competitive_info.tools)} competitors")

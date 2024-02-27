@@ -4,7 +4,7 @@ from pathlib import Path
 import click
 import toml
 from rich.console import Console
-from toolz.curried import pipe, filter, reduce, map, count
+from toolz.curried import pipe, filter, reduce, map, count, concat
 
 from napalm.package.collection_manager import CollectionManager
 
@@ -26,7 +26,7 @@ def _print_terminal_report(package_name, collections):
     console.print(f"[cyan]{package_name}[/cyan] summary:")
     console.print(f"  - [green]{len(collections)}[/green] collections installed")
     console.print(
-        f"  - [green]{count(reduce(add, map(lambda c: c.detectors, collections)))}[/green] detectors"
+        f"  - [green]{count(concat(map(lambda c: c.detectors, collections)))}[/green] detectors"
     )
 
     console.print(f"\n[cyan]{package_name}[/cyan] collections:")
@@ -57,7 +57,7 @@ def _print_markdown_report(package_name, collections):
     console.print("Some quick stats:")
     console.print(f"  - {len(collections)} collections")
     console.print(
-        f"  - {count(reduce(add, map(lambda c: c.detectors, collections)))} detectors"
+        f"  - {count(concat(map(lambda c: c.detectors, collections)))} detectors"
     )
 
     # print table for each collection
