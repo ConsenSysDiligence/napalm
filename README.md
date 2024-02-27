@@ -1,4 +1,4 @@
-e# 🔥 Napalm
+# 🔥 Napalm
 
 Napalm is a project management utility for custom solidity vulnerability detectors. 
 
