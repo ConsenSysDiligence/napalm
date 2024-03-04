@@ -27,7 +27,7 @@ $ pip3 install napalm-core
 Now, let’s see what you get from this package:
 
 ```bash
-$ napalm collections show
+$ napalm collections list
 <installation prompt>
 Installed collections:
   - napalm-core/optimisations
