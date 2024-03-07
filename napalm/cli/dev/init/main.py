@@ -41,7 +41,7 @@ def setup_sample_detectors(module_name: str):
     )
 
     for plugin in get_installed_tool_plugins():
-        plugin.setup_sample_detectors(module)
+        plugin.initialize_default_files(module)
 
     semgrep_file = (module / "detectors") / "semgrep_example_rule.yml"
     semgrep_template = sample_directory / "example_semgrep_rule.yml"
