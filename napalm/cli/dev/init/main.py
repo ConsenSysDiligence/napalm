@@ -9,6 +9,21 @@ from napalm.cli.dev.init.python_plugin_installer import PythonPluginInstaller
 from napalm.utils.templates import load_environment, render_and_save_template
 from napalm.plugins.installed import get_installed_tool_plugins
 
+import re
+
+
+def to_snake_case(text):
+    # Replace all non-word characters with a space
+    text = re.sub(r'[^\w\s]', ' ', text)
+
+    # Convert to lowercase and split by whitespace characters
+    words = text.lower().split()
+
+    # Join the words with underscores
+    snake_case = '_'.join(words)
+
+    return snake_case
+
 
 def initialize_git_repo():
     try:
@@ -73,6 +88,8 @@ def init(force: bool, global_install: bool):
         )
         exit(1)
 
+    module_name = to_snake_case(Path.cwd().name)
+
     # initialise virtual environment
     loguru.logger.info("Initialising virtual environment")
     venv.create(Path.cwd() / "venv", with_pip=True)
@@ -92,7 +109,7 @@ def init(force: bool, global_install: bool):
 
     # set up sample detectors
     loguru.logger.info("Setting up sample detectors")
-    setup_sample_detectors(Path.cwd().name)
+    setup_sample_detectors(module_name)
 
     # set up pyproject.toml
     pytoml = Path("pyproject.toml")
@@ -100,14 +117,14 @@ def init(force: bool, global_install: bool):
     # write to the files
     env = load_environment()
     render_and_save_template(
-        env, "install/pyproject.toml.jinja2", pytoml, {"module_name": Path.cwd().name}
+        env, "install/pyproject.toml.jinja2", pytoml, {"module_name": module_name}
     )
-    napalm_entry_point = Path().cwd() / Path.cwd().name / "napalm.py"
+    napalm_entry_point = Path().cwd() / module_name / "napalm.py"
     render_and_save_template(
         env,
         "init/napalm.py.jinja2",
         napalm_entry_point,
-        {"module_name": Path.cwd().name},
+        {"module_name": module_name},
     )
 
     # install napalm modules
